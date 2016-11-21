@@ -27,7 +27,7 @@ public class PlugCtrl {
 
 		IWF device = null;
 		try {
-			device = new IWF("88888.8888.RP04");
+			device = new IWF("55555.5555.RP09");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (M2MException e) {
