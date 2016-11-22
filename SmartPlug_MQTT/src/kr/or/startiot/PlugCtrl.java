@@ -1,11 +1,6 @@
+package kr.or.startiot;
 import java.io.IOException;
 import java.util.Map;
-
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.RaspiPin;
 
 import comus.wp.onem2m.common.enums.M2MCmdType;
 import comus.wp.onem2m.common.enums.M2MExecModeType;
@@ -18,12 +13,6 @@ import comus.wp.onem2m.iwf.run.IWF;
 public class PlugCtrl {
 
 	public static void main(String[] args) {
-
-		System.out.println("system started");
-
-		final GpioController gpio = GpioFactory.getInstance();
-
-		final GpioPinDigitalOutput light_pinOut1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "POWER", PinState.LOW);
 
 		IWF device = null;
 		try {
@@ -45,16 +34,6 @@ public class PlugCtrl {
 			e.printStackTrace();
 		}
 
-		/*
-		 * device.putContent("sensor1", "2223");
-		 * device.putBattery(M2MBatteryStatus.CHARGING_COMPLETE, 50);
-		 * device.putDeviceInfo("deviceLabel", "manufacturer", "model",
-		 * "deviceTye", "fwVersion", "swVersion", "hwVersion");
-		 * device.putFirmware("version", "firmwareName", "URL", true);
-		 * device.putMemory(100, 50); device.putSoftware("version",
-		 * "softwareName", "URL"); device.putReboot(false, true);
-		 * device.setStatus("try");
-		 */
 
 		device.addCmdListener(new CmdListener() {
 			String power;
@@ -64,16 +43,17 @@ public class PlugCtrl {
 				try {
 					power = cmd.get("switch");
 					System.out.println("switch : " + power);
-
+					Runtime rt= Runtime.getRuntime();
+					if ("OFF".equals(power)) {
+						rt.exec("gpio write 0 0");
+					} else if ("ON".equals(power)) {
+						rt.exec("gpio write 0 1");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
-				if ("OFF".equals(power)) {
-					light_pinOut1.high();
-				} else if ("ON".equals(power)) {
-					light_pinOut1.low();
-				}
+
 			}
 		});
 
