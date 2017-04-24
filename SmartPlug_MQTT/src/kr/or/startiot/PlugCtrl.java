@@ -2,6 +2,12 @@ package kr.or.startiot;
 import java.io.IOException;
 import java.util.Map;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.RaspiPin;
+
 import comus.wp.onem2m.common.enums.M2MCmdType;
 import comus.wp.onem2m.common.enums.M2MExecModeType;
 import comus.wp.onem2m.common.vo.ln.AnyArgType;
@@ -13,10 +19,11 @@ import comus.wp.onem2m.iwf.run.IWF;
 public class PlugCtrl {
 
 	public static void main(String[] args) {
-
+final GpioController gpio = GpioFactory.getInstance();
+final GpioPinDigitalOutput pinOut1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00,"POWER",PinState.LOW);
 		IWF device = null;
 		try {
-			device = new IWF("55555.5555.RP09");
+			device = new IWF("12345.1234.RP123");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (M2MException e) {
