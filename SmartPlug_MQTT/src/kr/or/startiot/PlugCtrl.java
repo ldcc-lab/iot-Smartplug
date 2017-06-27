@@ -18,10 +18,10 @@ import comus.wp.onem2m.iwf.run.IWF;
 
 public class PlugCtrl {
 
-	public static void main(String[] args) {
-final GpioController gpio = GpioFactory.getInstance();
-final GpioPinDigitalOutput pinOut1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00,"POWER",PinState.LOW);
+	public static void main(String[] args) throws IOException {
 		IWF device = null;
+		Runtime rt2 = Runtime.getRuntime();
+		rt2.exec("gpio mode 0 out");
 		try {
 			device = new IWF("12345.1234.RP123");
 		} catch (IOException e) {
